@@ -22,7 +22,7 @@ const config = {
   },
   icon: '${path:@commercetools-frontend/assets/application-icons/rocket.svg}',
   mainMenuLink: {
-    defaultLabel: 'Template starter',
+    defaultLabel: 'Custom View',
     labelAllLocales: [],
     permissions: [PERMISSIONS.View],
   },
