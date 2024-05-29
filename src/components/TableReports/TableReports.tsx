@@ -8,6 +8,7 @@ import {
   useReactTable,
   flexRender,
 } from '@tanstack/react-table';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 interface IProps {
   row: {
@@ -55,7 +56,8 @@ const TableReports = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  console.log({tableInstance: tableInstance.getRowModel()})
+  const match = useRouteMatch();
+  const { push } = useHistory();
 
   return (
     <table className={classNames(styles.table)}>
@@ -82,7 +84,12 @@ const TableReports = () => {
       <tbody>
         {tableInstance.getRowModel().rows.map((rowEl) => {
           return (
-            <tr key={rowEl.id}>
+            <tr
+              key={rowEl.id}
+              onClick={() => {
+                push(`${match.url}/${rowEl.original.id}`);
+              }}
+            >
               {rowEl.getVisibleCells().map((cellEl: any) => {
                 return (
                   <td
