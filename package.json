@@ -61,6 +61,7 @@
     "@jest/types": "29.6.3",
     "@manypkg/cli": "0.21.4",
     "@mui/material": "^5.15.18",
+    "@tanstack/react-table": "^8.10.0",
     "@testing-library/dom": "^9.3.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "12.1.5",
@@ -86,6 +87,7 @@
     "prettier": "2.8.8",
     "prop-types": "15.8.1",
     "react": "17.0.2",
+    "react-data-table-component": "^7.6.2",
     "react-dom": "17.0.2",
     "react-intl": "^6.4.7",
     "react-redux": "7.2.9",
@@ -102,7 +104,8 @@
     "@types/react-router": "<6",
     "@types/react-router-dom": "<6",
     "headers-polyfill": "3.2.5",
-    "nwsapi": "2.2.7"
+    "nwsapi": "2.2.7",
+    "react-error-overlay": "6.0.9"
   },
   "devDependencies": {}
 }
