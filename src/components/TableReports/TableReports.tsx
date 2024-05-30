@@ -89,6 +89,7 @@ const TableReports = () => {
               onClick={() => {
                 push(`${match.url}/${rowEl.original.id}`);
               }}
+              style={{cursor: 'pointer'}}
             >
               {rowEl.getVisibleCells().map((cellEl: any) => {
                 return (
