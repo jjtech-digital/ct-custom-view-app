@@ -1,24 +1,28 @@
-import React, { useState } from 'react';
-import OrderDrawer from '../OrderDrawer';
-import styles from './Orders.module.css'
+import { Switch, useHistory, useRouteMatch } from 'react-router-dom';
+import Spacings from '@commercetools-uikit/spacings';
+import { SuspendedRoute } from '@commercetools-frontend/application-shell';
+import ChannelDetails from '../OrderDetails';
+import TableReports from '../TableReports';
 
-const Orders = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const Channels = () => {
+  const match = useRouteMatch();
+  const { push } = useHistory();
 
   return (
-    <div>
-      <button
-        onClick={() => {
-          setIsOpen(true);
-        }}
-        className={styles.root}
-      >
-        Show Orders
-      </button>
+    <Spacings.Stack scale="xl">
+      {/* {loading && <LoadingSpinner />} */}
 
-      <OrderDrawer isOpen={isOpen} setIsOpen={setIsOpen} />
-    </div>
+      <Spacings.Stack scale="l">
+        <TableReports />
+        <Switch>
+          <SuspendedRoute path={`${match.path}/:id`}>
+            <ChannelDetails onClose={() => push(`${match.url}`)} />
+          </SuspendedRoute>
+        </Switch>
+      </Spacings.Stack>
+    </Spacings.Stack>
   );
 };
+Channels.displayName = 'Channels';
 
-export default Orders;
+export default Channels;

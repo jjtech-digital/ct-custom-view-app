@@ -7,7 +7,7 @@ export const data = [
     status: 'Processing',
   },
   {
-    id: 'e9c1c970-716a-4593-bcd9-bfdc2c21d75e',
+    id: 'e9c1c970-716a-4593-bcd9-bfdc2c21d75f',
     orderNumber: '1234ABCDE',
     date: '17/11/2023',
     total: '$1246.78',

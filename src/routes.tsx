@@ -1,6 +1,6 @@
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import Spacings from '@commercetools-uikit/spacings';
-import Channels from './components/channels';
+import Orders from './components/Orders';
 
 const ApplicationRoutes = () => {
   const match = useRouteMatch();
@@ -20,7 +20,7 @@ console.log({match})
     <Spacings.Inset scale="l">
       <Switch>
         <Route >
-          <Channels />
+          <Orders />
         </Route>
       </Switch>
     </Spacings.Inset>

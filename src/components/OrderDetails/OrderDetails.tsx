@@ -3,7 +3,7 @@ import styles from './OrderDetails.module.css';
 import PropTypes from 'prop-types';
 import { FormModalPage } from '@commercetools-frontend/application-components';
 
-const ChannelDetails = (props) => {
+const OrderDetails = (props) => {
   return (
     <FormModalPage title="Order Details" isOpen onClose={props.onClose}>
       <div className={styles.wrapper}>
@@ -130,9 +130,9 @@ const ChannelDetails = (props) => {
     </FormModalPage>
   );
 };
-ChannelDetails.displayName = 'ChannelDetails';
-ChannelDetails.propTypes = {
+OrderDetails.displayName = 'OrderDetails';
+OrderDetails.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default ChannelDetails;
+export default OrderDetails;
