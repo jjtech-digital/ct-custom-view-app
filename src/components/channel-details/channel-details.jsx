@@ -1,143 +1,133 @@
+import React from 'react';
+import styles from './OrderDetails.module.css';
 import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
-import { useParams } from 'react-router-dom';
-import {
-  PageNotFound,
-  FormModalPage,
-} from '@commercetools-frontend/application-components';
-import { ContentNotification } from '@commercetools-uikit/notifications';
-import Text from '@commercetools-uikit/text';
-import Spacings from '@commercetools-uikit/spacings';
-import LoadingSpinner from '@commercetools-uikit/loading-spinner';
-import { useCallback } from 'react';
-import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
-import { formatLocalizedString } from '@commercetools-frontend/l10n';
-import { DOMAINS, NO_VALUE_FALLBACK } from '@commercetools-frontend/constants';
-import { useIsAuthorized } from '@commercetools-frontend/permissions';
-import {
-  useShowNotification,
-  useShowApiErrorNotification,
-} from '@commercetools-frontend/actions-global';
-import { PERMISSIONS } from '../../constants';
-import {
-  useChannelDetailsUpdater,
-  useChannelDetailsFetcher,
-} from '../../hooks/use-channels-connector';
-import { docToFormValues, formValuesToDoc } from './conversions';
-import ChannelsDetailsForm from './channel-details-form';
-import { transformErrors } from './transform-errors';
-import messages from './messages';
-import { ApplicationPageTitle } from '@commercetools-frontend/application-shell';
+import { FormModalPage } from '@commercetools-frontend/application-components';
 
 const ChannelDetails = (props) => {
-  const intl = useIntl();
-  const params = useParams();
-  const { loading, error, channel } = useChannelDetailsFetcher(params.id);
-  const { dataLocale, projectLanguages } = useApplicationContext((context) => ({
-    dataLocale: context.dataLocale ?? '',
-    projectLanguages: context.project?.languages ?? [],
-  }));
-  const canManage = useIsAuthorized({
-    demandedPermissions: [PERMISSIONS.Manage],
-  });
-  const showNotification = useShowNotification();
-  const showApiErrorNotification = useShowApiErrorNotification();
-  const channelDetailsUpdater = useChannelDetailsUpdater();
-  const handleSubmit = useCallback(
-    async (formikValues, formikHelpers) => {
-      const data = formValuesToDoc(formikValues);
-      try {
-        await channelDetailsUpdater.execute({
-          originalDraft: channel,
-          nextDraft: data,
-        });
-        showNotification({
-          kind: 'success',
-          domain: DOMAINS.SIDE,
-          text: intl.formatMessage(messages.channelUpdated, {
-            channelName: formatLocalizedString(formikValues, {
-              key: 'name',
-              locale: dataLocale,
-              fallbackOrder: projectLanguages,
-            }),
-          }),
-        });
-      } catch (error) {
-        const transformedErrors = transformErrors(error);
-        if (transformedErrors.unmappedErrors.length > 0) {
-          showApiErrorNotification({
-            errors: transformedErrors.unmappedErrors,
-          });
-        }
-
-        formikHelpers.setErrors(transformedErrors.formErrors);
-      }
-    },
-    [
-      channel,
-      channelDetailsUpdater,
-      dataLocale,
-      intl,
-      projectLanguages,
-      showApiErrorNotification,
-      showNotification,
-    ]
-  );
-
   return (
-    <ChannelsDetailsForm
-      initialValues={docToFormValues(channel, projectLanguages)}
-      onSubmit={handleSubmit}
-      isReadOnly={!canManage}
-      dataLocale={dataLocale}
-    >
-      {(formProps) => {
-        const channelName = formatLocalizedString(
-          {
-            name: formProps.values?.name,
-          },
-          {
-            key: 'name',
-            locale: dataLocale,
-            fallbackOrder: projectLanguages,
-            fallback: NO_VALUE_FALLBACK,
-          }
-        );
-        return (
-          <FormModalPage
-            title={channelName}
-            isOpen
-            onClose={props.onClose}
-            isPrimaryButtonDisabled={
-              formProps.isSubmitting || !formProps.isDirty || !canManage
-            }
-            isSecondaryButtonDisabled={!formProps.isDirty}
-            onSecondaryButtonClick={formProps.handleReset}
-            onPrimaryButtonClick={formProps.submitForm}
-            labelPrimaryButton={FormModalPage.Intl.save}
-            labelSecondaryButton={FormModalPage.Intl.revert}
-          >
-            {loading && (
-              <Spacings.Stack alignItems="center">
-                <LoadingSpinner />
-              </Spacings.Stack>
-            )}
-            {error && (
-              <ContentNotification type="error">
-                <Text.Body>
-                  {intl.formatMessage(messages.channelDetailsErrorMessage)}
-                </Text.Body>
-              </ContentNotification>
-            )}
-            {channel && formProps.formElements}
-            {channel && (
-              <ApplicationPageTitle additionalParts={[channelName]} />
-            )}
-            {channel === null && <PageNotFound />}
-          </FormModalPage>
-        );
-      }}
-    </ChannelsDetailsForm>
+    <FormModalPage title="Order Details" isOpen onClose={props.onClose}>
+      <div className={styles.wrapper}>
+        <div className={styles.header}>
+          <p className={styles.orderTitle}>Order CT-171123101059</p>
+          <p>
+            <b>Date:</b> 17 Nov 2023
+          </p>
+        </div>
+        <div className={styles.orderDetailsContainer}>
+          <div className={styles.orderDetailsContainerOne}>
+            <div>
+              <h5 className={styles.title}>Order Information</h5>
+              <div>
+                <ul className={styles.list}>
+                  <li className={styles.listChild}>Delivery address</li>
+                  <li className={styles.listChildTwo}>Dan Admin</li>
+                  <li className={styles.listChildTwo}>59 North Beach Place </li>
+                  <li className={styles.listChildTwo}></li>
+                  <li className={styles.listChildTwo}> 04564</li>
+                  <li className={styles.listChildTwo}>0423121203</li>
+                </ul>
+                <ul className={styles.list}>
+                  <li className={styles.listChild}>Billing address</li>
+                  <p className={styles.listChildTwo}>Same as delivery</p>
+                </ul>
+                <div className={styles.list}>
+                  <p className={styles.listChild}> Company name</p>
+                  <p className={styles.listChildTwo}>
+                    OD Test Org Sandpit - Medium
+                  </p>
+                </div>
+                <ul className={styles.list}>
+                  <li className={styles.listChild}>Payment</li>
+                  <li
+                    className={styles.listChildTwo}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <div>CreditCard</div>
+                    <div>$1246.78</div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className={styles.orderDetailsContainerOne}>
+            <div>
+              <h5 className={styles.title}>Order summary</h5>
+              <div className={styles.subTotal}>
+                <p className="font-[Inter] font-bold text-base leading-140pr mb-2">
+                  Subtotal(incl. Tax) (3 items)
+                </p>
+                <span className=" font-poppins text-xl leading-[150%]">
+                  $1118.44
+                </span>
+              </div>
+              <ul className={styles.list}>
+                <li className={styles.STDDelivery}>
+                  <div>
+                    <div className={styles.title}>STD delivery to 04564</div>
+                    <div className={styles.text}>3 items</div>
+                  </div>
+                  <div>$16.50</div>
+                </li>
+              </ul>
+              <div className={styles.flex}>
+                <div className={styles.gst}>
+                  <div>GST</div>
+                  <div>$111.84</div>
+                </div>
+                <div className={styles.total}>
+                  <div>Total (incl. Tax)</div>
+                  <div>$1246.78</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.items}>
+          <div className={styles.title}>Items</div>
+          <div>
+            <h2 className={styles.packageTitle}>Package 1</h2>
+            <div className={styles.packageWrapper}>
+              <div className={styles.container}>
+                <div className={styles.packageSTDDelivery}>
+                  <span>STD delivery</span>
+                </div>
+                <div>
+                  <span className={styles.status}>Status:&nbsp;</span>
+                  <span className={styles.statusText}>Pending</span>
+                </div>
+              </div>
+              <div>
+                <div className={styles.orderItem}>
+                  <div className={styles.orderItemWrapper}>
+                    <div className={styles.orderItemImage}>
+                      <a href="/">
+                        <img
+                          alt="product"
+                          src="https://safety-culture-storefront-omega-uat.vercel.app/_next/image?url=https%3A%2F%2Fd391mcivvz321f.cloudfront.net%2F3M%2F3M-52000044579%2Fimages%2F085-12-00P.jpg&w=3840&q=75"
+                          width="76"
+                          height="100"
+                        />
+                      </a>
+                    </div>
+                    <div className={styles.orderItemContent}>
+                      <div>
+                        <a href="/" className={styles.orderItemLink}>
+                          3M™ Jupiter™ IS Battery Pack &amp; Pouch 085-12-00P
+                        </a>
+                      </div>
+                      <div className={styles.orderItemPrice}>$1109.24</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </FormModalPage>
   );
 };
 ChannelDetails.displayName = 'ChannelDetails';
